@@ -24,8 +24,8 @@ RUN yarn install --frozen-lockfile --network-timeout 1000000
 # 6. Copy the rest of your application code into the container
 COPY . .
 
-# 7. Compile TypeScript code using npx to run the locally installed tsc
-RUN npx tsc
+# 7. Compile TypeScript code using the explicit path to the installed tsc
+RUN ./node_modules/.bin/tsc
 
 # 8. Expose the port the application will run on (matching your PORT env variable)
 EXPOSE 5000
