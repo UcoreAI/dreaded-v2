@@ -17,15 +17,15 @@ WORKDIR /usr/src/app
 # 4. Copy package definition file (only package.json needed initially)
 COPY package.json ./
 
-# 5. Install dependencies using Yarn (including devDependencies needed for build)
-#    Allow install scripts to run (for sharp), increase network timeout
-RUN yarn install --frozen-lockfile --network-timeout 1000000 --production=false
+# 5. Install dependencies AND Compile TypeScript in a single RUN step
+#    Use yarn install first, then immediately try to run the installed tsc
+RUN yarn install --frozen-lockfile --network-timeout 1000000 --production=false \
+    && node_modules/.bin/tsc
 
 # 6. Copy the rest of your application code into the container
 COPY . .
 
-# 7. Compile TypeScript code using the explicit path relative to WORKDIR
-RUN node_modules/.bin/tsc
+# 7. ---> BUILD STEP ALREADY DONE IN STEP 5 <---
 
 # 8. Expose the port the application will run on (matching your PORT env variable)
 EXPOSE 5000
