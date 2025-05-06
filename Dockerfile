@@ -2,9 +2,10 @@
 FROM node:20-bookworm-slim
 
 # 2. Install essential system dependencies for building native modules (like sharp)
-#    Includes git (in case needed by dependencies) and libvips (needed by sharp)
+#    Includes git, CA certificates, and libvips (needed by sharp)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
+    ca-certificates \
     build-essential \
     python3 \
     libvips-dev \
@@ -13,7 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # 3. Set the working directory inside the container
 WORKDIR /usr/src/app
 
-# 4. Copy package definition files
+# 4. Copy package definition file (only package.json needed initially)
 COPY package.json ./
 
 # 5. Install dependencies using Yarn (including devDependencies needed for build)
