@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /usr/src/app
 
 # 4. Copy package definition files
-COPY package.json yarn.lock ./
+COPY package.json ./
 
 # 5. Install dependencies using Yarn (including devDependencies needed for build)
 #    Allow install scripts to run (for sharp), increase network timeout
